@@ -15,17 +15,17 @@ const schedulerConfig : BryntumSchedulerProps = {
   filterFeature : true,
   eventResizeFeature : false,
 
-  viewPreset : {
-    base      : 'dayAndWeek',
-    shiftUnit : 'week',
-    headers   : [
-        {
-            unit       : 'd',
-            align      : 'center',
-            dateFormat : 'ddd DD'
-        }
-    ]
-},
+//   viewPreset : {
+//     base      : 'dayAndWeek',
+//     shiftUnit : 'week',
+//     headers   : [
+//         {
+//             unit       : 'd',
+//             align      : 'center',
+//             dateFormat : 'ddd DD'
+//         }
+//     ]
+// },
 
   columns: [
     {
