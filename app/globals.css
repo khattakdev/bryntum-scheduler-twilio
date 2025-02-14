@@ -11,3 +11,35 @@ html {
 main {
   height: 100%;
 }
+
+
+.city-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 12px;
+  color: white;
+  text-transform: capitalize;
+  margin-right: 5px;
+}
+
+/* City-specific styles */
+.city-london {
+  background-color: #0073e6; /* Blue */
+}
+
+.city-newyork {
+  background-color: #ff5733; /* Red-Orange */
+}
+
+.city-berlin {
+  background-color: #28a745; /* Green */
+}
+
+.city-paris {
+  background-color: #9b59b6; /* Purple */
+}
+
+.city-rome {
+  background-color: #f39c12; /* Orange */
+}

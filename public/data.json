@@ -4,52 +4,52 @@
       "rows": [
         {
           "id": "r1",
-          "name": "Celia",
-          "city": "Barcelona"
+          "name": "Mike",
+          "city": "London"
         },
         {
           "id": "r2",
-          "name": "Lee",
-          "city": "London"
+          "name": "Linda",
+          "city": "Rome"
         },
         {
           "id": "r3",
-          "name": "Macy",
-          "city": "New York"
+          "name": "Don",
+          "city": "Rome"
         },
         {
           "id": "r4",
-          "name": "Madison",
-          "city": "Barcelona"
+          "name": "Karen",
+          "city": "Berlin"
         },
         {
           "id": "r5",
-          "name": "Rob",
-          "city": "Rome"
+          "name": "Doug",
+          "city": "Paris"
         },
         {
           "id": "r6",
-          "name": "Dave",
-          "city": "Barcelona"
-        },
-        {
-          "id": "r7",
-          "name": "Dan",
+          "name": "Peter",
           "city": "London"
         },
         {
+          "id": "r7",
+          "name": "Sam",
+          "city": "Paris"
+        },
+        {
           "id": "r8",
-          "name": "George",
-          "city": "New York"
+          "name": "Melissa",
+          "city": "Berlin"
         },
         {
           "id": "r9",
-          "name": "Gloria",
-          "city": "Rome"
+          "name": "John",
+          "city": "Berlin"
         },
         {
           "id": "r10",
-          "name": "Henrik",
+          "name": "Elle",
           "city": "London"
         }
       ]
@@ -58,114 +58,101 @@
       "rows": [
         {
           "id": 1,
-          "startDate": "2024-03-21 10:00",
-          "endDate": "2024-03-21 12:00",
-          "name": "Multi assigned A",
-          "iconCls": "b-fa b-fa-users"
-        },
-        {
-          "id": 2,
-          "startDate": "2024-03-21 13:00",
-          "endDate": "2024-03-21 15:00",
-          "name": "Single assigned A",
-          "iconCls": "b-fa b-fa-user",
-          "eventColor": "indigo"
-        },
-        {
-          "id": 3,
-          "startDate": "2024-03-21 08:00",
-          "endDate": "2024-03-21 11:00",
-          "name": "Single assigned B",
-          "iconCls": "b-fa b-fa-user",
-          "eventColor": "cyan"
-        },
-        {
-          "id": 4,
-          "startDate": "2024-03-21 10:00",
-          "endDate": "2024-03-21 13:00",
-          "name": "Single assigned C",
-          "iconCls": "b-fa b-fa-user",
-          "eventColor": "blue"
-        },
-        {
-          "id": 5,
-          "startDate": "2024-03-21 13:00",
-          "endDate": "2024-03-21 15:00",
-          "name": "Single assigned D",
-          "iconCls": "b-fa b-fa-user",
-          "eventColor": "violet"
-        },
-        {
-          "id": 6,
-          "startDate": "2024-03-21 14:00",
-          "endDate": "2024-03-21 17:00",
-          "name": "Multi assigned B",
-          "iconCls": "b-fa b-fa-users",
-          "eventColor": "lime"
-        }
-      ]
-    },
-    "assignments": {
-      "rows": [
-        {
-          "id": 1,
-          "resourceId": "r3",
-          "eventId": 1
+          "resourceId": "r1",
+          "startDate": "2022-03-20T10:00",
+          "endDate": "2022-03-20T12:00",
+          "name": "Click me",
+          "iconCls": "b-fa b-fa-mouse-pointer",
+          "eventColor": "pink"
         },
         {
           "id": 2,
           "resourceId": "r2",
-          "eventId": 1
+          "startDate": "2022-03-20T12:00",
+          "endDate": "2022-03-20T13:30",
+          "name": "Drag me",
+          "iconCls": "b-fa b-fa-arrows-alt"
         },
         {
           "id": 3,
-          "resourceId": "r8",
-          "eventId": 1
+          "resourceId": "r3",
+          "startDate": "2022-03-20T14:00",
+          "duration": 2,
+          "durationUnit": "h",
+          "name": "Double click me",
+          "eventColor": "purple",
+          "iconCls": "b-fa b-fa-mouse-pointer"
         },
         {
           "id": 4,
-          "resourceId": "r7",
-          "eventId": 2
+          "resourceId": "r4",
+          "startDate": "2022-03-20T08:00",
+          "endDate": "2022-03-20T11:00",
+          "name": "Right click me",
+          "iconCls": "b-fa b-fa-mouse-pointer"
         },
         {
           "id": 5,
-          "resourceId": "r4",
-          "eventId": 3
+          "resourceId": "r5",
+          "startDate": "2022-03-20T15:00",
+          "endDate": "2022-03-20T17:00",
+          "name": "Resize me",
+          "iconCls": "b-fa b-fa-arrows-alt-h"
         },
         {
           "id": 6,
-          "resourceId": "r5",
-          "eventId": 4
+          "resourceId": "r6",
+          "startDate": "2022-03-20T16:00",
+          "endDate": "2022-03-20T19:00",
+          "name": "Important meeting (read-only)",
+          "iconCls": "b-fa b-fa-exclamation-triangle",
+          "eventColor": "red",
+          "readOnly": true
         },
         {
           "id": 7,
           "resourceId": "r6",
-          "eventId": 5
+          "startDate": "2022-03-20T06:00",
+          "endDate": "2022-03-20T08:00",
+          "name": "Sports event",
+          "iconCls": "b-fa b-fa-basketball-ball"
         },
         {
           "id": 8,
-          "resourceId": "r1",
-          "eventId": 6
+          "resourceId": "r7",
+          "startDate": "2022-03-20T09:00",
+          "endDate": "2022-03-20T11:30",
+          "name": "Dad's birthday!",
+          "iconCls": "b-fa b-fa-gift",
+          "style": "background-color : teal; font-size: 18px",
+          "eventStyle": "none"
         },
         {
           "id": 9,
-          "resourceId": "r9",
-          "eventId": 6
-        }
-      ]
-    },
-    "dependencies": {
-      "rows": [
-        {
-          "id": 1,
-          "from": 1,
-          "to": 6
+          "resourceId": "r8",
+          "startDate": "2022-03-20T14:00",
+          "endDate": "2022-03-20T16:00",
+          "name": "Visit dentist",
+          "iconCls": "b-fa b-fa-user-doctor",
+          "eventColor": "orange"
         },
         {
-          "id": 2,
-          "from": 6,
-          "to": 2,
-          "toSide": "right"
+          "id": 10,
+          "resourceId": "r9",
+          "startDate": "2022-03-20T10:00",
+          "endDate": "2022-03-20T14:00",
+          "name": "Car maintenance",
+          "iconCls": "b-fa b-fa-car",
+          "eventColor": "blue"
+        },
+        {
+          "id": 11,
+          "resourceId": "r10",
+          "startDate": "2022-03-20T16:00",
+          "endDate": "2022-03-20T19:00",
+          "name": "Party time",
+          "iconCls": "b-fa b-fa-cake-candles",
+          "eventColor": "purple"
         }
       ]
     }
