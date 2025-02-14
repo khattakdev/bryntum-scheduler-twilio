@@ -19,10 +19,12 @@ export default function Scheduler({ ...props }) {
   }, []);
 
   return (
+    <>
     <BryntumScheduler
       {...props}
       ref={schedulerRef}
       crudManager={crudManagerConfig}
-    />
+      />
+    </>
   );
 }
