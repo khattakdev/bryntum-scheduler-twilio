@@ -1,0 +1,172 @@
+{
+    "success": true,
+    "resources": {
+      "rows": [
+        {
+          "id": "r1",
+          "name": "James",
+          "city": "London"
+        },
+        {
+          "id": "r2",
+          "name": "Linda",
+          "city": "Rome"
+        },
+        {
+          "id": "r3",
+          "name": "Don",
+          "city": "Rome"
+        },
+        {
+          "id": "r4",
+          "name": "Karen",
+          "city": "Berlin"
+        },
+        {
+          "id": "r5",
+          "name": "Doug",
+          "city": "Paris"
+        },
+        {
+          "id": "r6",
+          "name": "Dan",
+          "city": "London"
+        },
+        {
+          "id": "r7",
+          "name": "George",
+          "city": "Paris"
+        },
+        {
+          "id": "r8",
+          "name": "Melissa",
+          "city": "Berlin"
+        },
+        {
+          "id": "r9",
+          "name": "John",
+          "city": "Berlin"
+        },
+        {
+          "id": "r10",
+          "name": "Celia",
+          "city": "London"
+        }
+      ]
+    },
+    "events": {
+      "rows": [
+        {
+          "id": 1,
+          "resourceId": "r1",
+          "startDate": "2022-03-20T10:00",
+          "duration" : 2,
+          "durationUnit": "h",
+          "name": "Click me",
+          "iconCls": "b-fa b-fa-mouse-pointer",
+          "eventColor": "purple"
+        },
+        {
+          "id": 2,
+          "resourceId": "r2",
+          "startDate": "2022-03-24T12:00",
+          "duration" : 3,
+          "durationUnit": "h",
+          "name": "Drag me",
+          "eventColor": "pink",
+          "iconCls": "b-fa b-fa-arrows-alt"
+        },
+        {
+          "id": 3,
+          "resourceId": "r3",
+          "startDate": "2022-03-22T14:00",
+          "duration": 7,
+          "durationUnit": "h",
+          "name": "Double click me",
+          "eventColor": "green",
+          "iconCls": "b-fa b-fa-mouse-pointer"
+        },
+        {
+          "id": 4,
+          "resourceId": "r4",
+          "startDate": "2022-03-27T08:00",
+          "duration" : 4,
+          "durationUnit": "h",
+          "name": "Right click me",
+          "iconCls": "b-fa b-fa-mouse-pointer"
+        },
+        {
+          "id": 5,
+          "resourceId": "r5",
+          "startDate": "2022-03-26T15:00",
+          "duration" : 1,
+          "durationUnit": "h",
+          "eventColor": "blue",
+          "name": "Resize me",
+          "iconCls": "b-fa b-fa-arrows-alt-h"
+        },
+        {
+          "id": 6,
+          "resourceId": "r6",
+          "startDate": "2022-03-29T16:00",
+          "duration" : 5,
+          "durationUnit": "h",
+          "name": "Important meeting (read-only)",
+          "iconCls": "b-fa b-fa-exclamation-triangle",
+          "eventColor": "red",
+          "readOnly": true
+        },
+        {
+          "id": 7,
+          "resourceId": "r6",
+          "startDate": "2022-03-22T06:00",
+          "duration" : 2,
+          "durationUnit": "h",
+          "name": "Sports event",
+          "iconCls": "b-fa b-fa-basketball-ball"
+        },
+        {
+          "id": 8,
+          "resourceId": "r7",
+          "startDate": "2022-03-29T09:00",
+          "duration" : 3,
+          "durationUnit": "h",
+          "name": "Dad's birthday!",
+          "iconCls": "b-fa b-fa-gift",
+          "style": "background-color : teal; font-size: 18px",
+          "eventStyle": "none"
+        },
+        {
+          "id": 9,
+          "resourceId": "r8",
+          "startDate": "2022-03-26T14:00",
+          "duration" : 5,
+          "durationUnit": "h",
+          "name": "Visit dentist",
+          "iconCls": "b-fa b-fa-user-doctor",
+          "eventColor": "orange"
+        },
+        {
+          "id": 10,
+          "resourceId": "r9",
+          "startDate": "2022-03-21T10:00",
+          "name": "Car maintenance",
+          "duration" : 2,
+          "durationUnit": "h",
+          "iconCls": "b-fa b-fa-car",
+          "eventColor": "blue"
+        },
+        {
+          "id": 11,
+          "resourceId": "r10",
+          "startDate": "2022-03-27T16:00",
+          "name": "Party time",
+          "duration" : 6,
+          "durationUnit": "h",
+          "iconCls": "b-fa b-fa-cake-candles",
+          "eventColor": "purple"
+        }
+      ]
+    }
+  }
+  

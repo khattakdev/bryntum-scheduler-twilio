@@ -64,15 +64,16 @@ const schedulerConfig : BryntumSchedulerProps = {
   },
 
   crudManager : {
-    eventStore : {
-      // modelClass : CustomEventModel,
-  },
       transport : {
           load : {
-              url : 'data.json'
+              url : 'http://localhost:3000/load'
+          },
+          sync : {
+            url : 'http://localhost:3000/sync'
           }
       },
-      autoLoad : true
+      autoLoad : true,
+      autoSync : true
   }
 };
 
