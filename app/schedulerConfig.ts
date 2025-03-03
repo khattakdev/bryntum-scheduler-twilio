@@ -2,8 +2,8 @@ import { BryntumSchedulerProps } from "@bryntum/scheduler-react";
 
 
 const schedulerConfig : BryntumSchedulerProps = {
-  startDate        : new Date(2022, 2, 20, 6),
-  endDate          : new Date(2022, 2, 30, 20),
+  startDate        : new Date(2025, 1, 15, 6),
+  endDate          : new Date(2025, 1, 30, 20),
   eventStyle                : 'rounded',
   zoomOnMouseWheel          : false,
   zoomOnTimeAxisDoubleClick : false,
