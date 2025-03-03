@@ -1,14 +1,73 @@
-import fs from 'fs';
-import path from 'path';
-
+import { AssignmentModel, Model } from '@bryntum/scheduler';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
 
-// TODO: revert back to data.json and delete post-data.json
-const dataFilePath = path.join(process.cwd(), 'components/post-data.json');
+export async function POST(request: Request) {
 
-function updateOperation(updated, table) {
+    const body = await request.json();
+    const { requestId, assignments, dependencies, events, resources } = body;
+
+
+    const eventMapping: { [key: string]: number } = {};
+
+    try {
+        const response : { requestId : string, success: boolean, resources? : {}, events?: {}, assignments?: {}, dependencies?: {} } = { requestId, success : true };
+
+        if (resources) {
+            const rows = await applyTableChanges('resources', resources);
+            // if new data to update client
+            if (rows) {
+                response.resources = { rows };
+            }
+        }
+
+        if (events) {
+            const rows = await applyTableChanges('events', events);
+            if (rows) {
+                if (events?.added) {
+                    rows.forEach((row) => {
+                        eventMapping[row.$PhantomId] = row.id;
+                    });
+                }
+                response.events = { rows };
+            }
+        }
+
+        if (assignments) {
+            if (events && events?.added) {
+                assignments.added.forEach((assignment : AssignmentModel) => {
+                    assignment.eventId = eventMapping[assignment.eventId];
+                });
+            }
+            const rows = await applyTableChanges('assignments', assignments);
+            if (rows) {
+                response.assignments = { rows };
+            }
+        }
+
+        if (dependencies) {
+            const rows = await applyTableChanges('dependencies', dependencies);
+            if (rows) {
+                response.dependencies = { rows };
+            }
+        }
+
+        console.log(response);
+        return Response.json(response);
+    }
+    catch (error) {
+        console.error({ error });
+        return Response.json({
+            requestId,
+            success : false,
+            message : 'There was an error syncing the data changes.'
+        });
+    }
+
+}
+
+function updateOperation(updated: Model[], table : string) {
     return Promise.all(
-        updated.map(async({ id, ...data }) => {
+        updated.map(async({ id, ...data } : any) => {
             if (table === 'assignments') {
                 await Assignment.update(data, { where : { id } });
             }
@@ -25,9 +84,9 @@ function updateOperation(updated, table) {
     );
 }
 
-function deleteOperation(deleted, table) {
+function deleteOperation(deleted: (Model & { $PhantomId: string })[], table : string) {
     return Promise.all(
-        deleted.map(async({ id }) => {
+        deleted.map(async({ id }: { id: string | number }) => {
             if (table === 'assignments') {
                 await Assignment.destroy({
                     where : {
@@ -61,26 +120,26 @@ function deleteOperation(deleted, table) {
 }
 
 
-function createOperation(added, table) {
+function createOperation(added: (Model & { $PhantomId: string })[], table : string) {
     return Promise.all(
-        added.map(async(record) => {
+        added.map(async(record : Model & { $PhantomId: string }) => {
             const { $PhantomId, ...data } = record;
             let id;
             // Insert record into the table.rows array
             if (table === 'assignments') {
-                const assignment = await Assignment.create(data);
+                const assignment = await Assignment.create<any>(data);
                 id = assignment.id;
             }
             if (table === 'dependencies') {
-                const dependency = await Dependency.create(data);
+                const dependency = await Dependency.create<any>(data);
                 id = dependency.id;
             }
             if (table === 'events') {
-                const event = await Event.create(data);
+                const event = await Event.create<any>(data);
                 id = event.id;
             }
             if (table === 'resources') {
-                const resource = await Resource.create(data);
+                const resource = await Resource.create<any>(data);
                 id = resource.id;
             }
             // report to the client that we changed the record identifier
@@ -89,7 +148,7 @@ function createOperation(added, table) {
     );
 }
 
-async function applyTableChanges(table, changes) {
+async function applyTableChanges(table : string, changes: any) {
     let rows;
     if (changes.added) {
         rows = await createOperation(changes.added, table);
@@ -102,76 +161,4 @@ async function applyTableChanges(table, changes) {
     }
     // if got some new data to update client
     return rows;
-}
-
-export async function POST(request: Request) {
-
-    const body = await request.json();
-    const { requestId, assignments, dependencies, events, resources } = body;
-
-
-    const eventMapping = {};
-
-    try {
-        const response = { requestId, success : true };
-
-        if (resources) {
-            const rows = await applyTableChanges('resources', resources);
-            // if new data to update client
-            if (rows) {
-                response.resources = { rows };
-            }
-        }
-
-        if (events) {
-            const rows = await applyTableChanges('events', events);
-            if (rows) {
-                if (events?.added) {
-                    rows.forEach((row) => {
-                        eventMapping[row.$PhantomId] = row.id;
-                    });
-                }
-                response.events = { rows };
-            }
-        }
-
-        if (assignments) {
-            if (events && events?.added) {
-                assignments.added.forEach((assignment) => {
-                    assignment.eventId = eventMapping[assignment.eventId];
-                });
-            }
-            const rows = await applyTableChanges('assignments', assignments);
-            if (rows) {
-                response.assignments = { rows };
-            }
-        }
-
-        if (dependencies) {
-            const rows = await applyTableChanges('dependencies', dependencies);
-            if (rows) {
-                response.dependencies = { rows };
-            }
-        }
-
-        console.log(response);
-        return Response.json(response);
-    }
-    catch (error) {
-        console.error({ error });
-        return Response.json({
-            requestId,
-            success : false,
-            message : 'There was an error syncing the data changes.'
-        });
-    }
-
-    /*
-    const data = fs.readFileSync(dataFilePath, 'utf8');
-    const scheduler = JSON.parse(data);
-   
-    // TODO: Apply the changes before responding
-    return Response.json(scheduler);
-
-    */
 }
