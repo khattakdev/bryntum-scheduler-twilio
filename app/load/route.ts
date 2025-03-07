@@ -1,9 +1,4 @@
-import fs from 'fs';
-import path from 'path';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
-
-
-const dataFilePath = path.join(process.cwd(), 'components/data.json');
 
 export async function GET() {
     try {

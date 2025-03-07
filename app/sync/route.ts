@@ -3,8 +3,6 @@ import { Dependency, Event, Assignment, Resource } from '../../models/index'
 import { SyncResponse, TableChangeType, OperationType, CustomModel } from './type';
 
 export async function POST(request: Request) {
-
-
     const body = await request.json();
     const { requestId, assignments, dependencies, events, resources } = body;
 
@@ -25,9 +23,10 @@ export async function POST(request: Request) {
         if (events) {
             const rows = await applyTableChanges('events', events);
             if (rows) {
+                console.log(rows);
                 if (events?.added) {
                     rows.forEach((row) => {
-                        eventMapping[row.$PhantomId] = row.id;
+                        eventMapping[row.$PhantomId] = row.id as number;
                     });
                 }
                 response.events = { rows };

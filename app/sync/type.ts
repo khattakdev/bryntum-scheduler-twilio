@@ -2,7 +2,7 @@ import type { AssignmentModel, DependencyModel, EventModel, ResourceModel } from
 
 type CustomType = {
     $PhantomId: string;
-    id: number;
+    id?: number;
 }
 
 export type SyncResponse = {
