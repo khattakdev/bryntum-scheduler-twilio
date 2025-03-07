@@ -25,7 +25,9 @@ export async function POST(request: Request) {
             if (rows) {
                 if (events?.added) {
                     rows.forEach((row) => {
+                        console.log(row, eventMapping, row.$PhantomId, row.id);
                         eventMapping[row.$PhantomId] = row.id as number;
+                        console.log(row, eventMapping, row.$PhantomId, row.id);
                     });
                 }
                 response.events = { rows };
@@ -54,6 +56,7 @@ export async function POST(request: Request) {
         return Response.json(response);
     }
     catch (error) {
+        console.error({ error });
         return Response.json({
             requestId,
             success : false,
