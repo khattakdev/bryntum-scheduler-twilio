@@ -1,16 +1,18 @@
-import { AssignmentModel, Model } from '@bryntum/scheduler';
+import { AssignmentModel,} from '@bryntum/scheduler';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
+import { SyncResponse, TableChangeType, OperationType, CustomModel } from './type';
 
 export async function POST(request: Request) {
+
 
     const body = await request.json();
     const { requestId, assignments, dependencies, events, resources } = body;
 
 
-    const eventMapping: { [key: string]: number } = {};
+    const eventMapping: { [key: string]: string | number } = {};
 
     try {
-        const response : { requestId : string, success: boolean, resources? : {}, events?: {}, assignments?: {}, dependencies?: {} } = { requestId, success : true };
+        const response : SyncResponse = { requestId, success : true };
 
         if (resources) {
             const rows = await applyTableChanges('resources', resources);
@@ -51,7 +53,6 @@ export async function POST(request: Request) {
             }
         }
 
-        console.log(response);
         return Response.json(response);
     }
     catch (error) {
@@ -65,9 +66,9 @@ export async function POST(request: Request) {
 
 }
 
-function updateOperation(updated: Model[], table : string) {
+function updateOperation(updated : OperationType, table : string) {
     return Promise.all(
-        updated.map(async({ id, ...data } : any) => {
+        updated.map(async({ id, ...data }) => {
             if (table === 'assignments') {
                 await Assignment.update(data, { where : { id } });
             }
@@ -84,9 +85,9 @@ function updateOperation(updated: Model[], table : string) {
     );
 }
 
-function deleteOperation(deleted: (Model & { $PhantomId: string })[], table : string) {
+function deleteOperation(deleted : OperationType, table : string) {
     return Promise.all(
-        deleted.map(async({ id }: { id: string | number }) => {
+        deleted.map(async({ id }) => {
             if (table === 'assignments') {
                 await Assignment.destroy({
                     where : {
@@ -119,27 +120,26 @@ function deleteOperation(deleted: (Model & { $PhantomId: string })[], table : st
     );
 }
 
-
-function createOperation(added: (Model & { $PhantomId: string })[], table : string) {
+function createOperation(added : OperationType , table : string) {
     return Promise.all(
-        added.map(async(record : Model & { $PhantomId: string }) => {
-            const { $PhantomId, ...data } = record;
+        added.map(async(record) => {
+            const { $PhantomId, ...data } = record as CustomModel;
             let id;
             // Insert record into the table.rows array
             if (table === 'assignments') {
-                const assignment = await Assignment.create<any>(data);
+                const assignment = await Assignment.create(data);
                 id = assignment.id;
             }
             if (table === 'dependencies') {
-                const dependency = await Dependency.create<any>(data);
+                const dependency = await Dependency.create(data);
                 id = dependency.id;
             }
             if (table === 'events') {
-                const event = await Event.create<any>(data);
+                const event = await Event.create(data);
                 id = event.id;
             }
             if (table === 'resources') {
-                const resource = await Resource.create<any>(data);
+                const resource = await Resource.create(data);
                 id = resource.id;
             }
             // report to the client that we changed the record identifier
@@ -148,7 +148,7 @@ function createOperation(added: (Model & { $PhantomId: string })[], table : stri
     );
 }
 
-async function applyTableChanges(table : string, changes: any) {
+async function applyTableChanges(table : string, changes: TableChangeType) {
     let rows;
     if (changes.added) {
         rows = await createOperation(changes.added, table);
@@ -162,3 +162,5 @@ async function applyTableChanges(table : string, changes: any) {
     // if got some new data to update client
     return rows;
 }
+
+// TODO: table to tableName

@@ -1,8 +1,13 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Assignment = sequelize.define(
-  "Assignment",
+class Assignment extends Model {
+  declare id: number;
+  declare eventId: number;
+  declare resourceId: number;
+}
+
+Assignment.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -30,6 +35,7 @@ const Assignment = sequelize.define(
   },
   {
     tableName: "assignments",
+    sequelize,
     timestamps: false,
     indexes: [
       {
@@ -40,6 +46,7 @@ const Assignment = sequelize.define(
       },
     ],
   }
-);
+)
+
 
 export default Assignment;

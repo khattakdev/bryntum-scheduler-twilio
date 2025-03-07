@@ -1,8 +1,29 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Event = sequelize.define(
-  "Event",
+class Event extends Model {
+  declare id: number;
+  declare name: string;
+  declare readonly: boolean;
+  declare timeZone: string;
+  declare draggable: boolean;
+  declare resizable: string;
+  declare children: string;
+  declare allDay: boolean;
+  declare duration: number;
+  declare durationUnit: string;
+  declare startDate: Date;
+  declare endDate: Date;
+  declare exceptionDates: string;
+  declare recurrenceRule: string;
+  declare cls: string;
+  declare eventColor: string;
+  declare eventStyle: string;
+  declare iconCls: string;
+  declare style: string;
+}
+
+Event.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -83,9 +104,9 @@ const Event = sequelize.define(
     },
   },
   {
-    tableName: "events",
-    timestamps: false,
-  }
-);
+    tableName: 'events',
+    sequelize,
+  },
+)
 
 export default Event;

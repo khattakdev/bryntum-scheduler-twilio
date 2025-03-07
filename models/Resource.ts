@@ -1,8 +1,14 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Resource = sequelize.define(
-  "Resource",
+class Resource extends Model {
+  declare id: number;
+  declare name: string;
+  declare eventColor: string;
+  declare readOnly: boolean;
+}
+
+Resource.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -24,8 +30,9 @@ const Resource = sequelize.define(
   },
   {
     tableName: "resources",
+    sequelize,
     timestamps: false,
   }
-);
+)
 
 export default Resource;

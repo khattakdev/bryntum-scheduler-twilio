@@ -1,8 +1,18 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const Dependency = sequelize.define(
-  "Dependency",
+class Dependency extends Model {
+  declare id: number;
+  declare from: number;
+  declare to: number;
+  declare fromSide: string;
+  declare toSide: string;
+  declare cls: string;
+  declare lag: number;
+  declare lagUnit: string;
+}
+
+Dependency.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -56,6 +66,7 @@ const Dependency = sequelize.define(
   },
   {
     tableName: "dependencies",
+    sequelize,
     timestamps: false,
     indexes: [
       {
@@ -66,6 +77,6 @@ const Dependency = sequelize.define(
       },
     ],
   }
-);
+)
 
 export default Dependency;
