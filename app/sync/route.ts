@@ -23,7 +23,6 @@ export async function POST(request: Request) {
         if (events) {
             const rows = await applyTableChanges('events', events);
             if (rows) {
-                console.log(rows);
                 if (events?.added) {
                     rows.forEach((row) => {
                         eventMapping[row.$PhantomId] = row.id as number;
@@ -55,7 +54,6 @@ export async function POST(request: Request) {
         return Response.json(response);
     }
     catch (error) {
-        console.error({ error });
         return Response.json({
             requestId,
             success : false,
