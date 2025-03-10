@@ -6,7 +6,6 @@ export default function Scheduler({ ...props }) {
   const schedulerRef = useRef<BryntumScheduler>(null);
 
   useEffect(() => {
-    console.log(props)
     // Bryntum Scheduler instance
     // const scheduler = schedulerRef?.current?.instance;
   }, []);
