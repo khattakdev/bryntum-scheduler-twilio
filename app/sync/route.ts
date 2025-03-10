@@ -1,6 +1,6 @@
 import { AssignmentModel,} from '@bryntum/scheduler';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
-import { SyncResponse, TableChangeType, OperationType, CustomModel } from './type';
+import { SyncResponse, TableChangeType, OperationType, CustomModel } from './types';
 
 export async function POST(request: Request) {
     const body = await request.json();
@@ -162,5 +162,3 @@ async function applyTableChanges(table : string, changes: TableChangeType) {
     // if got some new data to update client
     return rows;
 }
-
-// TODO: table to tableName

@@ -27,8 +27,4 @@ export async function GET() {
         'There was an error loading the assignments, dependencies, events, and resources data.'
         });
     }
-    // const data = fs.readFileSync(dataFilePath, 'utf8');
-    // const scheduler = JSON.parse(data);
-   
-    // return Response.json(scheduler);
 }
