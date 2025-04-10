@@ -21,11 +21,15 @@ const Resource = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    telNumber: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   },
   {
     tableName: "resources",
     timestamps: false,
-  }
+  },
 );
 
 export default Resource;

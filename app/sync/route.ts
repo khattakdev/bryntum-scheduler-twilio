@@ -1,6 +1,7 @@
 import { AssignmentModel,} from '@bryntum/scheduler';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
 import { SyncResponse, TableChangeType, OperationType, CustomModel } from './types';
+import twilio from 'twilio';
 
 export async function POST(request: Request) {
     const body = await request.json();
@@ -66,7 +67,27 @@ export async function POST(request: Request) {
 
 }
 
-function updateOperation(updated : OperationType, table : string) {
+async function updateOperation(updated: OperationType, table: string) {
+    console.log('updateOperation', updated, table);
+    const event = await Event.findOne({
+        where: {
+            id: updated[0].id
+        }
+    });
+    const assignment = await Assignment.findOne({
+        where: { eventId: updated[0].id }
+    });
+
+    console.log('assignment', assignment.dataValues);
+
+    const resource = await Resource.findOne({
+        where: { id: assignment.resourceId }
+    });
+    console.log('resource', resource.dataValues);
+
+    const message = `Event ${event.dataValues.name} was updated. It will now start at ${event.dataValues.startDate} and end at ${event.dataValues.endDate}.`;
+    sendNotification(message,resource.dataValues.telNumber);
+    // Nathaniel: Send Twilio Message that event was updated to the resource telNumber
     return Promise.all(
         updated.map(async({ id, ...data }) => {
             if (table === 'assignments') {
@@ -85,7 +106,8 @@ function updateOperation(updated : OperationType, table : string) {
     );
 }
 
-function deleteOperation(deleted : OperationType, table : string) {
+function deleteOperation(deleted: OperationType, table: string) {
+    // Nathaniel: Send Twilio Message that event was deleted
     return Promise.all(
         deleted.map(async({ id }) => {
             if (table === 'assignments') {
@@ -120,7 +142,8 @@ function deleteOperation(deleted : OperationType, table : string) {
     );
 }
 
-function createOperation(added : OperationType , table : string) {
+function createOperation(added: OperationType, table: string) {
+    // Nathaniel: Send Twilio Message that event was created
     return Promise.all(
         added.map(async(record) => {
             const { $PhantomId, ...data } = record as CustomModel;
@@ -161,4 +184,15 @@ async function applyTableChanges(table : string, changes: TableChangeType) {
     }
     // if got some new data to update client
     return rows;
+}
+
+async function sendNotification(messageBody: string,telNumber: string) {
+    // Nathaniel: Send Twilio Message that event was created
+
+    const client = twilio();
+    client.messages.create({
+        body: messageBody,
+        to: telNumber,
+        from: '+447482587748'
+    });
 }

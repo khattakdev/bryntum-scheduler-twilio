@@ -10,14 +10,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bryntum/scheduler": "^6.1.6",
-    "@bryntum/scheduler-react": "^6.1.6",
+    "@bryntum/scheduler": "npm:@bryntum/scheduler-trial@^6.1.9",
+    "@bryntum/scheduler-react": "^6.1.9",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sequelize": "^6.37.5",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "twilio": "^5.5.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
