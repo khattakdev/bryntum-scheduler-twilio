@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bryntum/scheduler": "npm:@bryntum/scheduler-trial@^6.1.9",
+    "@bryntum/scheduler": "^6.2.0",
     "@bryntum/scheduler-react": "^6.1.9",
     "next": "15.1.7",
     "react": "^19.0.0",

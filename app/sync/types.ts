@@ -1,5 +1,19 @@
 import type { AssignmentModel, DependencyModel, EventModel, ResourceModel } from "@bryntum/scheduler";
 
+export type LogType = 'event' | 'assignment';
+export type ActionType = 'create' | 'update' | 'delete' | 'unassign' | 'assign';
+
+export interface EventInfo {
+    name?: string;
+    startDate?: Date;
+    endDate?: Date;
+}
+
+export interface AssignmentInfo {
+    eventName?: string;
+    resourceName?: string;
+}
+
 type CustomType = {
     $PhantomId: string;
     id?: number;

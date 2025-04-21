@@ -1,7 +1,7 @@
 import { AssignmentModel,} from '@bryntum/scheduler';
 import { Dependency, Event, Assignment, Resource } from '../../models/index'
-import { SyncResponse, TableChangeType, OperationType, CustomModel } from './types';
-import twilio from 'twilio';
+import { LogType, ActionType, EventInfo, AssignmentInfo, SyncResponse, TableChangeType, OperationType, CustomModel } from './types';
+// import twilio from 'twilio';
 
 export async function POST(request: Request) {
     const body = await request.json();
@@ -68,24 +68,6 @@ export async function POST(request: Request) {
 }
 
 async function updateOperation(updated: OperationType, table: string) {
-    console.log('updateOperation', updated, table);
-    const event = await Event.findOne({
-        where: {
-            id: updated[0].id
-        }
-    });
-    const assignment = await Assignment.findOne({
-        where: { eventId: updated[0].id }
-    });
-
-    console.log('assignment', assignment.dataValues);
-
-    // const resource = await Resource.findOne({
-    //     where: { id: assignment.resourceId }
-    // });
-    // console.log('resource', resource.dataValues);
-
-    // const message = `Event ${event.dataValues.name} was updated. It will now start at ${event.dataValues.startDate} and end at ${event.dataValues.endDate}.`;
     // sendNotification(message,resource.dataValues.telNumber);
     // Nathaniel: Send Twilio Message that event was updated to the resource telNumber
     return Promise.all(
@@ -98,6 +80,13 @@ async function updateOperation(updated: OperationType, table: string) {
             }
             if (table === 'events') {
                 await Event.update(data, { where : { id } });
+                const eventData = await Event.findOne({ where: { id } });
+                logAction('event', 'update', {
+                    name: eventData?.name,
+                    startDate: eventData?.startDate,
+                    endDate: eventData?.endDate
+                });
+                // console.log(`An event has been updated:\n Event Name: ${eventData?.name}\n Event Start Date: ${eventData?.startDate}\n Event End Date: ${eventData?.endDate}`);
             }
             if (table === 'resources') {
                 await Resource.update(data, { where : { id } });
@@ -125,10 +114,14 @@ function deleteOperation(deleted: OperationType, table: string) {
                 });
             }
             if (table === 'events') {
+                const eventData = await Event.findOne({ where: { id } });
                 await Event.destroy({
                     where : {
                         id : id
                     }
+                });
+                logAction('event', 'delete', {
+                    name: eventData?.name,
                 });
             }
             if (table === 'resources') {
@@ -152,7 +145,14 @@ function createOperation(added: OperationType, table: string) {
             if (table === 'assignments') {
                 const assignment = await Assignment.create(data);
                 id = assignment.id;
-            }
+                const assignmentData = await Assignment.findOne({ where: { id } });
+                const resourceData = await Resource.findOne({ where: { id: assignmentData?.resourceId } });
+                const eventData = await Event.findOne({ where: { id: assignmentData?.eventId } });
+                logAction('assignment', 'assign', {
+                    eventName: eventData?.name,
+                    resourceName: resourceData?.name
+                });
+                }
             if (table === 'dependencies') {
                 const dependency = await Dependency.create(data);
                 id = dependency.id;
@@ -160,6 +160,12 @@ function createOperation(added: OperationType, table: string) {
             if (table === 'events') {
                 const event = await Event.create(data);
                 id = event.id;
+                const eventData = await Event.findOne({ where: { id } });
+                logAction('event', 'create', {
+                    name: eventData?.name,
+                    startDate: eventData?.startDate,
+                    endDate: eventData?.endDate
+                });
             }
             if (table === 'resources') {
                 const resource = await Resource.create(data);
@@ -186,6 +192,8 @@ async function applyTableChanges(table : string, changes: TableChangeType) {
     return rows;
 }
 
+
+/*
 async function sendNotification(messageBody: string,telNumber: string) {
     // Nathaniel: Send Twilio Message that event was created
 
@@ -196,3 +204,55 @@ async function sendNotification(messageBody: string,telNumber: string) {
         from: '+447482587748'
     });
 }
+    */
+
+
+
+function logAction(type: LogType, action: ActionType, data: EventInfo | AssignmentInfo): void {
+    switch (type) {
+        case 'event':
+            const event = data as EventInfo;
+            switch (action) {
+                case 'create':
+                    console.log(`A new event was created:\n Event Name: ${event.name}\n Event Start Date: ${formatDate(event.startDate)}\n Event End Date: ${formatDate(event.endDate)}`);
+                    break;
+                case 'update':
+                    console.log(`An event has been updated:\n Event Name: ${event.name}\n Event Start Date: ${formatDate(event.startDate)}\n Event End Date: ${formatDate(event.endDate)}`);
+                    break;
+                case 'delete':
+                    console.log(`An event has been deleted:\n Event Name: ${event.name}\n Event Start Date: ${formatDate(event.startDate)}\n Event End Date: ${formatDate(event.endDate)}`);
+                    break;
+            }
+            break;
+
+        case 'assignment':
+            const assignment = data as AssignmentInfo;
+            switch (action) {
+                case 'assign':
+                    console.log(`Event "${assignment.eventName}" has been assigned to "${assignment.resourceName}".`);
+                    break;
+                case 'unassign':
+                    console.log(`Resource "${assignment.resourceName}" has been unassigned from "${assignment.eventName}"`);
+                    break;
+            }
+            break;
+    }
+}
+
+function formatDate(input: Date | undefined): string {
+    if (!input) {
+        return '';
+    }
+    const date = new Date(input);
+    if (isNaN(date.getTime())) {
+        throw new Error('Invalid date string');
+    }
+
+    const day = date.toDateString().split(' ').slice(0, 3).join(' ');
+    const monthDay = date.toDateString().split(' ')[2];
+    const year = date.getFullYear();
+    const time = date.toTimeString().split(' ')[0];
+
+    return `${day} ${monthDay}, ${year} ${time}`;
+}
+
