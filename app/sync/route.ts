@@ -80,13 +80,13 @@ async function updateOperation(updated: OperationType, table: string) {
 
     console.log('assignment', assignment.dataValues);
 
-    const resource = await Resource.findOne({
-        where: { id: assignment.resourceId }
-    });
-    console.log('resource', resource.dataValues);
+    // const resource = await Resource.findOne({
+    //     where: { id: assignment.resourceId }
+    // });
+    // console.log('resource', resource.dataValues);
 
-    const message = `Event ${event.dataValues.name} was updated. It will now start at ${event.dataValues.startDate} and end at ${event.dataValues.endDate}.`;
-    sendNotification(message,resource.dataValues.telNumber);
+    // const message = `Event ${event.dataValues.name} was updated. It will now start at ${event.dataValues.startDate} and end at ${event.dataValues.endDate}.`;
+    // sendNotification(message,resource.dataValues.telNumber);
     // Nathaniel: Send Twilio Message that event was updated to the resource telNumber
     return Promise.all(
         updated.map(async({ id, ...data }) => {
