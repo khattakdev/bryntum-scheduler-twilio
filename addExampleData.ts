@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import sequelize from "./config/database.js";
-import { Assignment, Dependency, Event, Resource } from "./models/index.js";
+import { Assignment, Dependency, Event, Resource } from "./models/index";
 
 async function setupDatabase() {
   // Wait for all models to synchronize with the database
@@ -13,10 +13,10 @@ async function setupDatabase() {
 async function addExampleData() {
   try {
     // Read and parse the JSON data
-    const eventsData = JSON.parse(readFileSync("./initialData/events.json"));
-    const resourcesData = JSON.parse(readFileSync("./initialData/resources.json"));
-    const assignmentsData = JSON.parse(readFileSync("./initialData/assignments.json"));
-    const dependenciesData = JSON.parse(readFileSync("./initialData/dependencies.json"));
+    const eventsData = JSON.parse(readFileSync("./initialData/events.json", "utf-8"));
+    const resourcesData = JSON.parse(readFileSync("./initialData/resources.json", "utf-8"));
+    const assignmentsData = JSON.parse(readFileSync("./initialData/assignments.json", "utf-8"));
+    const dependenciesData = JSON.parse(readFileSync("./initialData/dependencies.json", "utf-8"));
 
     await sequelize.transaction(async (t) => {
       const events = await Event.bulkCreate(eventsData, { transaction: t });

@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-class Event extends Model {
+class EventModel extends Model {
   declare id: number;
   declare name: string;
   declare readonly: boolean;
@@ -23,7 +23,8 @@ class Event extends Model {
   declare style: string;
 }
 
-Event.init(
+const Event = sequelize.define<EventModel>(
+  "Event",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -104,9 +105,10 @@ Event.init(
     },
   },
   {
-    tableName: 'events',
-    sequelize,
-  },
-)
+    tableName: "events",
+    timestamps: false,
+  }
+);
+
 
 export default Event;

@@ -1,14 +1,15 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
 
-class Resource extends Model {
+class ResourceModel extends Model {
   declare id: number;
   declare name: string;
   declare eventColor: string;
   declare readOnly: boolean;
 }
 
-Resource.init(
+const Resource = sequelize.define<ResourceModel>(
+  "Resource",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -27,12 +28,15 @@ Resource.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    telNumber: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   },
   {
     tableName: "resources",
-    sequelize,
     timestamps: false,
-  }
-)
+  },
+);
 
 export default Resource;
